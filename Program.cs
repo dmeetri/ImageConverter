@@ -1,2 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System;
+using Commands;
+
+class Program
+{
+    public static void Main(string[] args)
+    {
+        CommandManager cmd = new CommandManager();
+
+        while (true)
+        {
+            cmd.readCommands();
+        }
+    }
+}
+
