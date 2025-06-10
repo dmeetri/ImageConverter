@@ -5,31 +5,32 @@ namespace Commands
 {
     public class ImageEdit
     {
-        public void Resize(string path, string width, string height)
+        public void resize(string path, int newHeight)
         {
-            int targetWidth = int.Parse(width);
-            int targetHeight = int.Parse(height);
-
             using (Image image = Image.Load(path))
             {
                 int originalWidth = image.Width;
                 int originalHeight = image.Height;
+                int newWidth = (originalWidth * newHeight) / originalHeight;
+                image.Mutate(x => x.Resize(newWidth, newHeight));
 
-                image.Mutate(x => x.Resize(targetWidth, targetHeight));
-
-                string newPath = "resized_" + path;
+                string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string fullPath = path.Replace("~", home);
+                string directory = Path.GetDirectoryName(path);
+                string filename = Path.GetFileName(path);
+                string newPath = Path.Combine(directory, "resized_" + filename);
                 image.Save(newPath);
 
-                Console.WriteLine($"Изображение сохранено как {newPath}");
+                Console.WriteLine($"Image is saved as {newPath}");
             }
         }
 
-        public void Convert()
+        public void convert()
         {
             
         }
 
-        public void DeleteData()
+        public void deleteData()
         {
 
         }

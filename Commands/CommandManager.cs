@@ -21,8 +21,19 @@ namespace Commands
                     Console.Write(helpMessage());
                     break;
                 case "resize":
-                    ie.Resize(args[1], args[2], args[3]);
+                    if (args.Length < 2)
+                        Console.WriteLine("ERROR: You did not specify all the subscriptions! Write down 'help'");
+
+                    if (int.TryParse(args[2], out int height)) ie.resize(args[1], height);
+                    else Console.WriteLine("ERROR: You entered an incorrect value. The expected number is");
                     break;
+                    /*
+            
+
+            if (int.TryParse(args[2], out int height)) ie.Resize(args[1], height);
+            else Console.WriteLine("ERROR: You entered an incorrect value. The expected number is");
+            break;
+            */
                 case "convert":
                     break;
                 case "deletedata":
@@ -35,9 +46,9 @@ namespace Commands
 
         private string helpMessage()
         {
-            return "help - all commands \n" +
-                "resize <image / folder with pictures> <width / height?> \n" +
-                "convert <image / folder with pictures> <format - png jpg web> \n" +
+            return "help - all commands\n" +
+                "resize <image / folder with pictures> <height> - Resizing the image while maintaining the proportions\n" +
+                "convert <image / folder with pictures> <format - png jpg web>\n" +
                 "deleteData <image / folder with pictures>";
         }
     }
