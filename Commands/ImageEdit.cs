@@ -7,17 +7,18 @@ namespace Commands
     {
         public void resize(string path, int newHeight)
         {
-            using (Image image = Image.Load(path))
+            string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string fullPath = path.Replace("~", home);
+            string directory = Path.GetDirectoryName(fullPath);
+            string filename = Path.GetFileName(path);
+
+            using (Image image = Image.Load(fullPath))
             {
                 int originalWidth = image.Width;
                 int originalHeight = image.Height;
                 int newWidth = (originalWidth * newHeight) / originalHeight;
                 image.Mutate(x => x.Resize(newWidth, newHeight));
 
-                string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                string fullPath = path.Replace("~", home);
-                string directory = Path.GetDirectoryName(path);
-                string filename = Path.GetFileName(path);
                 string newPath = Path.Combine(directory, "resized_" + filename);
                 image.Save(newPath);
 
